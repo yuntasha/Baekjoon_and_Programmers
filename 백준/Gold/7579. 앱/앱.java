@@ -24,26 +24,21 @@ public class Main {
     }
 
     static int solution(int N, int M, int[] size, int[] cost){
-        var arr = new int[M];
-        var visited = new boolean[M];
-        var result = Integer.MAX_VALUE;
+        var costMaxSize = new int[10001];
+        var visited = new boolean[10001];
+        visited[0] = true;
         for (int i=0; i<N; i++){
-            for (int j=M-1; j>0; j--){
+            for (int j=10000; j>=0; j--) {
                 if (!visited[j]) continue;
-                if (j+size[i]>=M) {
-                    result = Math.min(arr[j]+cost[i], result);
-                } else {
-                    arr[j+size[i]] = visited[j+size[i]] && arr[j+size[i]]<arr[j]+cost[i]?arr[j+size[i]]:arr[j]+cost[i];
-                    visited[j+size[i]] = true;
-                }
-            }
-            if (size[i]>=M) result = Math.min(result, cost[i]);
-            else {
-                arr[size[i]] = visited[size[i]] && arr[size[i]] < cost[i] ? arr[size[i]] : cost[i];
-                visited[size[i]] = true;
+                costMaxSize[j+cost[i]] = Math.max(costMaxSize[j+cost[i]], costMaxSize[j]+size[i]);
+                visited[j+cost[i]] = true;
             }
         }
-
-        return result;
+        for (int i=0; i<10001; i++){
+            if (costMaxSize[i]>=M) {
+                return i;
+            }
+        }
+        return 10000;
     }
 }
