@@ -27,18 +27,15 @@ public class Main {
         var costMaxSize = new int[10001];
         var visited = new boolean[10001];
         visited[0] = true;
+        var minCost = 10000;
         for (int i=0; i<N; i++){
-            for (int j=10000; j>=0; j--) {
+            for (int j=minCost-cost[i]; j>=0; j--) {
                 if (!visited[j]) continue;
                 costMaxSize[j+cost[i]] = Math.max(costMaxSize[j+cost[i]], costMaxSize[j]+size[i]);
+                if (costMaxSize[j+cost[i]]>=M) minCost=j+cost[i];
                 visited[j+cost[i]] = true;
             }
         }
-        for (int i=0; i<10001; i++){
-            if (costMaxSize[i]>=M) {
-                return i;
-            }
-        }
-        return 10000;
+        return minCost;
     }
 }
