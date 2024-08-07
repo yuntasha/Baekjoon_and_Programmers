@@ -18,35 +18,35 @@ public class Main {
     }
 
     static String solution(String s1, String s2){
-        List<Integer>[] where = new ArrayList[26];
-        for (int i=0; i<26; i++) {
-            where[i] = new ArrayList<>();
-        }
-        for (int i=0; i<s1.length(); i++) {
-            where[s1.charAt(i)-'A'].add(i);
-        }
-        var dp = new String[s1.length()];
+        var c1 = s1.toCharArray();
+        var c2 = s2.toCharArray();
 
-        Arrays.fill(dp, "");
+        var dp = new int[c1.length+1][c2.length+1];
 
-        for (int i=0; i<s2.length(); i++){
-            var now = where[s2.charAt(i)-'A'];
-            var idx=0;
-            var maxString = "";
-            for (int j=0; j<s1.length() && idx< now.size(); j++){
-                if (now.get(idx)==j) {
-                    if (maxString.length()+1 >dp[j].length()) dp[j] = maxString+s2.charAt(i);
-                    else maxString=dp[j];
-                    idx++;
-                }
-                else if (maxString.length() < dp[j].length()) maxString=dp[j];
+
+        for (int i=1; i<c1.length+1; i++){
+            for (int j=1; j<c2.length+1; j++){
+                dp[i][j] = c1[i-1]==c2[j-1]?dp[i-1][j-1]+1:Math.max(dp[i-1][j], dp[i][j-1]);
             }
         }
 
-        var result = "";
-        for (String s: dp){
-            if (result.length()<s.length()) result = s;
+        if (dp[c1.length][c2.length]==0) return String.valueOf(dp[c1.length][c2.length]);
+
+        var result = new StringBuilder();
+
+        var x1 = c1.length;
+        var x2 = c2.length;
+
+        while (dp[x1][x2]>0){
+            if (dp[x1][x2]==dp[x1-1][x2]) x1--;
+            else if (dp[x1][x2]==dp[x1][x2-1]) x2--;
+            else {
+                result.append(c1[x1-1]);
+                x1--;
+                x2--;
+            }
         }
-        return result.length() + (result.isBlank()?"":"\n"+result);
+
+        return dp[c1.length][c2.length] + "\n" + result.reverse();
     }
 }
