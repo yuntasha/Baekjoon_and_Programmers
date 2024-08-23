@@ -23,7 +23,7 @@ public class Main {
     }
 
     static int solution(Line line1, Line line2){
-        if (line1.isCross(line2)) return 1;
+        if (line2.isCross(line1)) return 1;
         else return 0;
     }
 
