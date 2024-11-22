@@ -12,43 +12,33 @@ public class Main {
         var N = NM[0];
         var M = NM[1];
 
-        var arr = Arrays.stream(bf.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        var p = new ArrayList<Integer>();
+        var m = new ArrayList<Integer>();
 
-        System.out.println(solution(N, M, arr));
-    }
-
-    static int solution(int N, int M, int[] arr) {
-        var result = 0;
-        var p = new PriorityQueue<Integer>(Comparator.reverseOrder());
-        var m = new PriorityQueue<Integer>(Comparator.reverseOrder());
+        StringTokenizer st = new StringTokenizer(bf.readLine());
 
         for (int i=0; i<N; i++) {
-            if (arr[i]>0) p.add(arr[i]);
-            else m.add(-arr[i]);
+            var n = Integer.parseInt(st.nextToken());
+            if (n>0) p.add(n);
+            else m.add(-n);
         }
 
-        if (p.isEmpty()) {
-            result += m.remove();
-            for (int i=1; i<M && !m.isEmpty(); i++) m.remove();
-        } else if (m.isEmpty()) {
-            result += p.remove();
-            for (int i=1; i<M && !p.isEmpty(); i++) p.remove();
-        } else if (p.peek() > m.peek()) {
-            result += p.remove();
-            for (int i=1; i<M && !p.isEmpty(); i++) p.remove();
-        } else {
-            result += m.remove();
-            for (int i=1; i<M && !m.isEmpty(); i++) m.remove();
+        System.out.println(solution(N, M, p, m));
+    }
+
+    static int solution(int N, int M, List<Integer> p, List<Integer> m) {
+
+        p.sort(Comparator.reverseOrder());
+        m.sort(Comparator.reverseOrder());
+
+        var result = -Math.max(p.isEmpty()?0:p.get(0), m.isEmpty()?0:m.get(0));
+
+        for (int i=0; i<p.size(); i+=M) {
+            result += p.get(i)<<1;
         }
 
-        while (!p.isEmpty()) {
-            result += p.remove()*2;
-            for (int i=1; i<M && !p.isEmpty(); i++) p.remove();
-        }
-
-        while (!m.isEmpty()) {
-            result += m.remove() * 2;
-            for (int i=1; i<M && !m.isEmpty(); i++) m.remove();
+        for (int i=0; i<m.size(); i+=M) {
+            result += m.get(i)<<1;
         }
 
         return result;
