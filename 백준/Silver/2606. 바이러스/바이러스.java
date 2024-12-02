@@ -4,65 +4,47 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
+
+    static boolean[] visited;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(bufferedReader.readLine());
+        var N = Integer.parseInt(bf.readLine());
+        var M = Integer.parseInt(bf.readLine());
 
-        int M = Integer.parseInt(bufferedReader.readLine());
+        var line = new ArrayList<List<Integer>>();
 
-        int[][] link = new int[M][2];
-
-        for (int i=0; i<M; i++){
-            String inputLine = bufferedReader.readLine();
-            String[] ss = inputLine.split(" ");
-            for (int j=0; j<2; j++){
-                link[i][j] = Integer.parseInt(ss[j])-1;
-            }
+        for (int i=0; i<N+1; i++) {
+            line.add(new ArrayList<>());
         }
 
-        Solution solution = new Solution(N, M, link);
-        solution.result();
+        visited = new boolean[N+1];
+
+        for (int i=0; i<M; i++) {
+            var st = new StringTokenizer(bf.readLine());
+            var a = Integer.parseInt(st.nextToken());
+            var b = Integer.parseInt(st.nextToken());
+
+            line.get(a).add(b);
+            line.get(b).add(a);
+        }
+
+        System.out.println(solution(N, M, line));
     }
 
-    private static class Solution{
+    static int solution(int N, int M, List<List<Integer>> line) {
+        return dfs(1, line)-1;
+    }
 
-        private int N;
-        private int M;
-        private ArrayList[] link;
-
-        Solution(int N, int M, int[][] cmds){
-            this.N = N;
-            this.M = M;
-
-            link = new ArrayList[N];
-            for (int i=0; i<N; i++) link[i] = new ArrayList<Integer>();
-
-            for (int[] cmd:cmds) {
-                link[cmd[0]].add(cmd[1]);
-                link[cmd[1]].add(cmd[0]);
-            }
+    static int dfs(int i, List<List<Integer>> line) {
+        var result = 1;
+        visited[i] = true;
+        for (int d: line.get(i)) {
+            if (visited[d]) continue;
+            result += dfs(d, line);
         }
 
-        void result(){
-            LinkedList<Integer> ll = new LinkedList<>();
-            Set<Integer> s = new HashSet<>();
-
-            ll.add(0);
-            s.add(0);
-
-            while(!ll.isEmpty()){
-                Integer node = ll.remove();
-                for (Object o : link[node]) {
-                    Integer next = (Integer) o;
-                    if (!s.contains(next)){
-                        s.add(next);
-                        ll.add(next);
-                    }
-                }
-            }
-
-            System.out.println(s.size()-1);
-        }
+        return result;
     }
 }
