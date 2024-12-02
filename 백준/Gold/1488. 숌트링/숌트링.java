@@ -19,51 +19,14 @@ public class Main {
     }
 
     static int solution(int countA, int countB, int maxA, int maxB) {
-//        answer = 0
-//
-//        if countA > countB:
-//        countA, countB, maxA, maxB = countB, countA, maxB, maxA
-//
-//        if countA == 0 or maxA == 0:
-//            answer = maxB if maxB < countB else countB
-//        elif countB == 0 or maxB == 0:
-//            answer = maxA if maxA < countA else countA
-//        elif countA == countB:
-//            answer += (countA * 2)
-//        else:
-//        n = countA + 1
-//        answer += (countA + n)
-//        countB -= n
-//        answer += ((maxB-1)*n) if (countB//n) >= (maxB -1) else countB
 
-        var answer = 0;
+        if (maxA == 0 || countA == 0) return Math.min(countB, maxB);
+        if (maxB == 0 || countB == 0) return Math.min(countA, maxA);
 
-        if (countA > countB) {
-            var temp = countA;
-            countA = countB;
-            countB = temp;
-            temp = maxA;
-            maxA = maxB;
-            maxB = temp;
-        }
-
-        if (countA == 0 || maxA == 0) {
-            answer = Math.min(maxB, countB);
-        } else if (countB == 0 || maxB == 0) {
-            answer = Math.min(maxA, countA);
-        } else if (countA == countB) {
-            answer = countA * 2;
+        if (countA < countB) {
+            return countA + (countA+1 > countB/maxB ? countB : maxB * (countA + 1));
         } else {
-            var n = countA + 1;
-            answer += countA + n;
-            countB -= n;
-            if ((countB/n) >= maxB-1) {
-                answer += (maxB-1) * n;
-            } else {
-                answer += countB;
-            }
+            return countB + (countB+1 > countA/maxA ? countA : maxA * (countB + 1));
         }
-
-        return answer;
     }
 }
