@@ -5,16 +5,16 @@ import java.io.InputStreamReader;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        var bf = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        var S = bf.readLine();
+        String S = bf.readLine();
 
         System.out.println(solution(S));
     }
 
     static int solution(String S) {
-        var N = Integer.parseInt(S);
-        var fail = new boolean[N];
+        int N = Integer.parseInt(S);
+        boolean[] fail = new boolean[N];
 
         if (N < 10) {
             return -1;
@@ -26,9 +26,9 @@ public class Main {
 
         for (int n=10; n<N; n++) {
 
-            var isWin = false;
+            boolean isWin = false;
 
-            var iMax = (n<<3)+(n<<1);
+            int iMax = (n<<3)+(n<<1);
 
             Loop : for (int i=10; i<=iMax; i=(i<<3) + (i<<1)) {
                 for (int now = n%i; now>0; now/=10) {
@@ -43,7 +43,7 @@ public class Main {
             fail[n] = !isWin;
         }
 
-        var result = Integer.MAX_VALUE;
+        int result = Integer.MAX_VALUE;
 
         for (int i=10; i<=((N<<3) + (N<<1)); i=(i<<3) + (i<<1)) {
             for (int now = N%i; now>0; now/=10) {
