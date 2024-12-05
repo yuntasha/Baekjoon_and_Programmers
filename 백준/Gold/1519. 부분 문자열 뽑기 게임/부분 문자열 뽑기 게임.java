@@ -1,13 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.HashSet;
 
 public class Main {
-
-    static int[] MY_DP;
-    static int[] OTHER_DP;
 
     public static void main(String[] args) throws IOException {
         var bf = new BufferedReader(new InputStreamReader(System.in));
@@ -19,15 +15,14 @@ public class Main {
 
     static int solution(String S) {
         var N = Integer.parseInt(S);
+        var fail = new boolean[N];
 
         if (N < 10) {
             return -1;
         }
 
-        var fail = new HashSet<Integer>();
-
         for (int i=0; i<10; i++) {
-            fail.add(i);
+            fail[i] = true;
         }
 
         for (int n=10; n<N; n++) {
@@ -42,7 +37,7 @@ public class Main {
 
                     if (now == 0) continue;
 
-                    if (fail.contains(n - now)) {
+                    if (fail[n - now]) {
                         isWin = true;
                         break Loop;
                     }
@@ -50,7 +45,7 @@ public class Main {
             }
 
             if (!isWin) {
-                fail.add(n);
+                fail[n] = true;
             }
         }
 
@@ -63,7 +58,7 @@ public class Main {
 
                 if (now == 0) continue;
 
-                if (fail.contains(N - now)) {
+                if (fail[N - now]) {
                     result = Math.min(result, now);
                 }
             }
@@ -71,9 +66,4 @@ public class Main {
 
         return result==Integer.MAX_VALUE?-1:result;
     }
-
-    /**
-     * 승리할 수밖에 없는 숫자, 패배만 있는 숫자
-     * 만약 바꿨을때 그 수가 지는 숫자라면
-     */
 }
