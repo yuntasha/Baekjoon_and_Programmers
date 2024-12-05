@@ -1,34 +1,37 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        var bf = new BufferedReader(new InputStreamReader(System.in));
 
-        var S = read();
+        var S = bf.readLine();
 
         System.out.println(solution(S));
     }
 
-    static int solution(int N) {
+    static int solution(String S) {
+        var N = Integer.parseInt(S);
         var fail = new boolean[N];
 
         if (N < 10) {
             return -1;
         }
 
-        for (int i = 0; i < 10; i++) {
+        for (int i=0; i<10; i++) {
             fail[i] = true;
         }
 
-        for (int n = 10; n < N; n++) {
+        for (int n=10; n<N; n++) {
 
             var isWin = false;
 
-            var iMax = (n << 3) + (n << 1);
+            var iMax = (n<<3)+(n<<1);
 
-            Loop:
-            for (int i = 10; i <= iMax; i = (i << 3) + (i << 1)) {
-                for (int now = n % i; now > 0; now /= 10) {
+            Loop : for (int i=10; i<=iMax; i=(i<<3) + (i<<1)) {
+                for (int now = n%i; now>0; now/=10) {
                     if (now == n) continue;
                     if (fail[n - now]) {
                         isWin = true;
@@ -37,15 +40,13 @@ public class Main {
                 }
             }
 
-            if (!isWin) {
-                fail[n] = true;
-            }
+            fail[n] = !isWin;
         }
 
         var result = Integer.MAX_VALUE;
 
-        for (int i = 10; i <= N * 10; i *= 10) {
-            for (int now = N % i; now > 0; now /= 10) {
+        for (int i=10; i<=((N<<3) + (N<<1)); i=(i<<3) + (i<<1)) {
+            for (int now = N%i; now>0; now/=10) {
                 if (now == N) continue;
                 if (fail[N - now]) {
                     result = Math.min(result, now);
@@ -53,13 +54,6 @@ public class Main {
             }
         }
 
-        return result == Integer.MAX_VALUE ? -1 : result;
-    }
-
-    static int read() throws IOException {
-        int c, n = System.in.read() & 15;
-        while ((c = System.in.read()) > 32)
-            n = (n << 3) + (n << 1) + (c & 15);
-        return n;
+        return result==Integer.MAX_VALUE?-1:result;
     }
 }
