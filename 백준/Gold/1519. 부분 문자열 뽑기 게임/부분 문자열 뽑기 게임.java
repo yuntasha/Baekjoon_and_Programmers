@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
 
 public class Main {
 
@@ -26,17 +25,12 @@ public class Main {
         }
 
         for (int n=10; n<N; n++) {
-            var s = String.valueOf(n);
 
             var isWin = false;
 
-            Loop : for (int i=0; i<s.length(); i++) {
-                for (int j=i+1; j<=s.length(); j++) {
-                    if (i==0 && j==s.length()) continue;
-                    var now = Integer.parseInt(s.substring(i, j));
-
-                    if (now == 0) continue;
-
+            Loop : for (int i=10; i<=n*10; i*=10) {
+                for (int now = n%i; now>0; now/=10) {
+                    if (now == n) continue;
                     if (fail[n - now]) {
                         isWin = true;
                         break Loop;
@@ -51,13 +45,9 @@ public class Main {
 
         var result = Integer.MAX_VALUE;
 
-        for (int i=0; i<S.length(); i++) {
-            for (int j=i+1; j<=S.length(); j++) {
-                if (i==0 && j==S.length()) continue;
-                var now = Integer.parseInt(S.substring(i, j));
-
-                if (now == 0) continue;
-
+        for (int i=10; i<=N*10; i*=10) {
+            for (int now = N%i; now>0; now/=10) {
+                if (now == N) continue;
                 if (fail[N - now]) {
                     result = Math.min(result, now);
                 }
