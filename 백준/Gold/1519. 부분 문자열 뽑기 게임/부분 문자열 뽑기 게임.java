@@ -28,7 +28,9 @@ public class Main {
 
             var isWin = false;
 
-            Loop : for (int i=10; i<=n*10; i*=10) {
+            var iMax = (n<<3)+(n<<1);
+
+            Loop : for (int i=10; i<=iMax; i=(i<<3) + (i<<1)) {
                 for (int now = n%i; now>0; now/=10) {
                     if (now == n) continue;
                     if (fail[n - now]) {
