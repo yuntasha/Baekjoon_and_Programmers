@@ -6,32 +6,39 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        var N = Integer.parseInt(bf.readLine());
 
-        var N = Integer.parseInt(bufferedReader.readLine());
+        System.out.println(solution(N, bf));
+    }
 
-        var arr = new int[N][3];
+    static String solution(int N, BufferedReader bf) throws IOException {
+        var min = new int[2][3];
+        var max = new int[2][3];
 
-        var dpMax = new int[N][3];
-        var dpMin = new int[N][3];
+        for (int i=0; i<N; i++) {
 
-        dpMin[0] = dpMax[0] = arr[0] = Arrays.stream(bufferedReader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+            var arr = Arrays.stream(bf.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 
-        for (int i=1; i<N; i++){
-            arr[i] = Arrays.stream(bufferedReader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+            min[i&1][0] = Math.min(min[i&1^1][0],min[i&1^1][1]) + arr[0];
+            max[i&1][0] = Math.max(max[i&1^1][0],max[i&1^1][1]) + arr[0];
+
+            min[i&1][1] = Math.min(min[i&1^1][0], Math.min(min[i&1^1][1], min[i&1^1][2])) + arr[1];
+            max[i&1][1] = Math.max(max[i&1^1][0], Math.max(max[i&1^1][1], max[i&1^1][2])) + arr[1];
+
+            min[i&1][2] = Math.min(min[i&1^1][1],min[i&1^1][2]) + arr[2];
+            max[i&1][2] = Math.max(max[i&1^1][1],max[i&1^1][2]) + arr[2];
         }
 
-        for (int i=1; i<N; i++){
-            dpMax[i][0] = Math.max(dpMax[i-1][0], dpMax[i-1][1]) + arr[i][0];
-            dpMax[i][2] = Math.max(dpMax[i-1][2], dpMax[i-1][1]) + arr[i][2];
-            dpMax[i][1] = Math.max(dpMax[i][0] - arr[i][0], dpMax[i][2] - arr[i][2]) + arr[i][1];
+        var minV = Integer.MAX_VALUE;
+        var maxV = -1;
 
-            dpMin[i][0] = Math.min(dpMin[i-1][0], dpMin[i-1][1]) + arr[i][0];
-            dpMin[i][2] = Math.min(dpMin[i-1][2], dpMin[i-1][1]) + arr[i][2];
-            dpMin[i][1] = Math.min(dpMin[i][0] - arr[i][0], dpMin[i][2] - arr[i][2]) + arr[i][1];
+        for (int i=0; i<3; i++) {
+            minV = Math.min(minV, min[(N-1)&1][i]);
+            maxV = Math.max(maxV, max[(N-1)&1][i]);
         }
 
-        System.out.println(Arrays.stream(dpMax[N-1]).max().getAsInt() + " " + Arrays.stream(dpMin[N-1]).min().getAsInt());
+        return maxV + " " + minV;
     }
 }
