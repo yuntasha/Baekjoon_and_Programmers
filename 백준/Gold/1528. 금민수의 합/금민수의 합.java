@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -18,31 +19,33 @@ public class Main {
         if (N == 0) return "0";
         if (N < 0) return "-1";
 
+        var dp = new int[N+1];
+        dp[0] = 1;
+
         var nums = new ArrayList<Integer>();
-
         find(nums, 0, 0);
+        nums.sort(Comparator.naturalOrder());
 
-        nums.sort(Integer::compareTo);
-
-        var visited = new boolean[N+1];
-
-        var q = new LinkedList<Node>();
-
-        q.add(new Node(0, ""));
-
-        while (!q.isEmpty()) {
-            var now = q.remove();
-
-            for (int num : nums) {
-                if (num+now.x > N) continue;
-                if (visited[num+now.x]) continue;
-                visited[num+now.x] = true;
-                if (now.x+num == N) return (now.result+ " " + num).substring(1);
-                q.add(new Node(now.x+num, now.result+ " " + num));
+        for (int num: nums) {
+            for (int i=0; i<N; i++) {
+                if (dp[i] == 0 || i+num > N) continue;
+                if (dp[i+num] == 0 || dp[i+num] > dp[i] + 1) dp[i+num] = dp[i] + 1;
             }
         }
 
-        return "-1";
+        if (dp[N] == 0) return "-1";
+
+        var result = new ArrayList<Integer>();
+
+        var now = N;
+        for (int num: nums) {
+            while (now>=num && dp[now] == dp[now-num] + 1) {
+                now-=num;
+                result.add(num);
+            }
+        }
+
+        return result.stream().map(String::valueOf).collect(Collectors.joining(" "));
     }
 
     static void find(List<Integer> nums, int now, int cnt) {
@@ -53,15 +56,5 @@ public class Main {
         nums.add(v2);
         find(nums, v1, cnt+1);
         find(nums, v2, cnt+1);
-    }
-
-    static class Node {
-        int x;
-        String result;
-
-        public Node(int x, String result) {
-            this.x = x;
-            this.result = result;
-        }
     }
 }
