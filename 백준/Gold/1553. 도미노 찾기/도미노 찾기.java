@@ -1,17 +1,18 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        int[][] arr = new int[8][];
+        int[][] arr = new int[8][7];
 
         for (int i=0; i<8; i++) {
-            arr[i] = Arrays.stream(bf.readLine().split("")).mapToInt(Integer::parseInt).toArray();
+            for (int j=0; j<7; j++) {
+                arr[i][j] = read();
+            }
         }
 
         System.out.println(solution(arr));
@@ -56,5 +57,13 @@ public class Main {
         }
 
         return result;
+    }
+
+    static int read() throws IOException {
+        int i;
+        do {
+            i = System.in.read();
+        } while (i < '0');
+        return i&15;
     }
 }
