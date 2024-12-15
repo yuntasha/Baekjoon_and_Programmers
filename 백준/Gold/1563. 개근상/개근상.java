@@ -34,11 +34,10 @@ public class Main {
 
         for (int i=0; i<3; i++) {
             for (int j=0; j<2; j++) {
-                result += dp[N-1][i][j];
-                result %= MAX_VALUE;
+                result = result + dp[N-1][i][j];
             }
         }
 
-        return result;
+        return result % MAX_VALUE;
     }
 }
