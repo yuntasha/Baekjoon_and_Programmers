@@ -22,41 +22,14 @@ public class Main {
     }
 
     static int solution(int N, StringTokenizer st) {
-        if (N == 1) return 0;
-        if (N == 2) return Math.max(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-
-        LinkedList<Integer> stk = new LinkedList<>();
-
         int result = 0;
-
-        for (int i=0; i<N; i++) {
-            int now = Integer.parseInt(st.nextToken());
-            if (stk.isEmpty()) {
-                stk.add(now);
-                continue;
-            }
-            int prev = stk.removeLast();
-
-            if (prev <= now) {
-                while (!stk.isEmpty() && stk.peekLast() <= now) {
-                    result += stk.removeLast();
-                }
-                result += now;
-                stk.add(now);
-                continue;
-            }
-
-            stk.add(prev);
-            stk.add(now);
+        int prev = 0;
+        int now = Integer.parseInt(st.nextToken());
+        for (int i=1; i<N; i++) {
+            prev = now;
+            now = Integer.parseInt(st.nextToken());
+            result += Math.max(prev, now);
         }
-
-        if (stk.size() > 1) {
-            stk.removeLast();
-            while (!stk.isEmpty()) {
-                result += stk.removeLast();
-            }
-        }
-
         return result;
     }
 }
