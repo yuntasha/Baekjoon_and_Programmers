@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
@@ -77,31 +78,36 @@ public class Main {
     }
 
     static int solution(byte[][] map) {
-        int[][] result = new int[501][501];
+        boolean[][] visited = new boolean[501][501];
 
-        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingInt(Node::getV));
-        pq.add(new Node(0, 0, 1));
+        LinkedList<Node> q = new LinkedList<>();
+        q.add(new Node(0, 0, 0));
 
-        result[0][0] = 1;
+        visited[0][0] = true;
 
-        while (!pq.isEmpty()) {
-            Node now = pq.remove();
+        while (!q.isEmpty()) {
+            Node now = q.remove();
 
             for (int d = 0; d < 4; d++) {
                 int x = now.x + dx[d];
                 int y = now.y + dy[d];
 
                 if (!isIn(x, y)) continue;
-                if (result[x][y] > 0) continue;
+                if (visited[x][y]) continue;
                 if (map[x][y] == 2) continue;
+                visited[x][y] = true;
 
-                result[x][y] = now.v + map[x][y];
+                if (x==500 && y==500) return now.v+map[x][y];
 
-                pq.add(new Node(x, y, result[x][y]));
+                if (map[x][y] == 1) {
+                    q.add(new Node(x, y, now.v+1));
+                } else {
+                    q.addFirst(new Node(x, y, now.v));
+                }
             }
         }
         
-        return result[500][500] - 1;
+        return -1;
     }
 
     static boolean isIn(int x, int y) {
