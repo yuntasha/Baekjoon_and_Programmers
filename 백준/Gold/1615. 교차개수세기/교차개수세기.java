@@ -76,9 +76,7 @@ public class Main {
         int N;
 
         SegTree(int N) {
-            int i = 1;
-            while (i <= N) i=i<<1;
-            this.nodes = new long[(i<<1)+1];
+            this.nodes = new long[(N<<2)+1];
             this.nodeIdx = new int[N+1];
             this.N = N;
             initNode(1, 1, N);
@@ -113,11 +111,9 @@ public class Main {
         private long getRange(int now, int start, int end, int n) {
             int mid = (start + end) >> 1;
             if (start >= n) return nodes[now];
-            long result = 0L;
-            if (mid >= n) result += getRange(now << 1, start, mid, n);
-            if (end >= n) result += getRange((now << 1) + 1, mid + 1, end, n);
+            if (end < n) return 0;
 
-            return result;
+            return getRange(now << 1, start, mid, n) + getRange((now << 1) + 1, mid + 1, end, n);
         }
     }
 
