@@ -28,46 +28,30 @@ public class Main {
         int N = read();
         int M = read();
 
-        List<Line> lines = new ArrayList<>();
+        boolean[][] isLine = new boolean[N+1][N+1];
 
         for (int i=0; i<M; i++) {
-            lines.add(new Line(read(), read()));
+            isLine[read()][read()] = true;
         }
 
-        System.out.println(solution(N, M, lines));
+        System.out.println(solution(N, M, isLine));
     }
 
-    public static long solution(int N, int M, List<Line> lines) {
+    public static long solution(int N, int M, boolean[][] isLine) {
         SegTree segTree = new SegTree(N);
-
-        lines.sort(Comparator.comparingInt(Line::getX).thenComparingInt(Line::getY));
 
         long result = 0;
 
-        for (Line line : lines) {
-            result += segTree.getResult(line.y+1);
-            segTree.addNode(line.y);
+        for (int i=1; i<=N; i++) {
+            for (int j=1; j<=N; j++) {
+                if (isLine[i][j]) {
+                    result += segTree.getResult(j+1);
+                    segTree.addNode(j);
+                }
+            }
         }
 
         return result;
-    }
-
-    static class Line {
-        int x;
-        int y;
-
-        Line(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
     }
 
     static class SegTree {
@@ -88,7 +72,7 @@ public class Main {
                 return;
             }
 
-            int mid = (start + end) / 2;
+            int mid = (start + end) >> 1;
 
             initNode(now<<1, start, mid);
             initNode((now<<1) + 1, mid + 1, end);
@@ -121,8 +105,7 @@ public class Main {
         int n = 0;
         int i;
         while ((i = System.in.read()) >= '0') {
-            n = (n<<3) + (n<<1);
-            n+= (i&15);
+            n = (n<<3) + (n<<1) + (i&15);
         }
         return n;
     }
