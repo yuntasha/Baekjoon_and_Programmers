@@ -40,6 +40,7 @@ public class Main {
         LinkedList<Node> q = new LinkedList<>();
         boolean[][] visited = new boolean[N][M];
         int result = 0;
+        int count = 0;
 
         for (int n = 0; n < N; n++) {
             for (int m = 0; m < M; m++) {
@@ -47,12 +48,16 @@ public class Main {
                     q.add(new Node(n, m, 0));
                     visited[n][m] = true;
                 }
+                if (map[n][m] == -1) {
+                    count++;
+                }
             }
         }
 
         while (!q.isEmpty()) {
             Node now = q.remove();
             result = now.v;
+            count++;
 
             for (int d = 0; d < 4; d++) {
                 int n = now.n + dx[d];
@@ -67,15 +72,11 @@ public class Main {
             }
         }
 
-        for (int n = 0; n < N; n++) {
-            for (int m = 0; m < M; m++) {
-                if (!visited[n][m] && map[n][m] != -1) {
-                    return -1;
-                }
-            }
+        if (count == N*M) {
+            return result;
+        } else {
+            return -1;
         }
-
-        return result;
     }
 
     static boolean isIn(int n, int m, int N, int M) {
