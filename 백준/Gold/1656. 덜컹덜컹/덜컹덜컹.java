@@ -22,14 +22,14 @@ public class Main {
 
         StringJoiner sj = new StringJoiner("\n\n");
 
-        while ((N = Integer.parseInt(bf.readLine().replaceAll("[^0-9]", ""))) > 0) {
+        while ((N = readInt()) > 0) {
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;
 
             int[] legs = new int[N];
 
             for (int i=0; i<N; i++) {
-                legs[i] = Integer.parseInt(bf.readLine().replaceAll("[^0-9]", ""));
+                legs[i] = readInt();
                 min = Math.min(min, legs[i]);
                 max = Math.max(max, legs[i]);
             }
@@ -85,5 +85,16 @@ public class Main {
         }
 
         return result;
+    }
+
+    static int readInt() throws IOException {
+        int n;
+        int c;
+        while ((n = System.in.read()) < '0');
+        n = n&15;
+        while ((c = System.in.read()) >= '0') {
+            n = (n<<3) + (n<<1) + (c&15);
+        }
+        return n;
     }
 }
