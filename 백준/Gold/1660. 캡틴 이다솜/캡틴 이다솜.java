@@ -30,10 +30,10 @@ public class Main {
 
         int[] DP = IntStream.rangeClosed(0, N).toArray();
 
-        for (int i=4; i<=N; i++) {
+        for (int i=0; i<=N; i++) {
             for (int n : arr) {
-                if (n > i) break;
-                DP[i] = Math.min(DP[i], DP[i-n] + 1);
+                if (i+n > N) break;
+                DP[i+n] = Math.min(DP[i+n], DP[i] + 1);
             }
         }
 
