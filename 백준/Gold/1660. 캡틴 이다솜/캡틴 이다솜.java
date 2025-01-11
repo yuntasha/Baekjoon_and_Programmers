@@ -41,24 +41,15 @@ public class Main {
     }
 
     static List<Integer> findArr(int N) {
-        List<Integer> arr = new ArrayList<>();
-        int now = 1;
-
-        arr.add(1);
-
-        for (int i=2; now + i <= N; i++) {
-            now+=i;
-            arr.add(now);
-        }
-
         List<Integer> result = new ArrayList<>();
 
-        now = 0;
+        int now = 1;
+        int add = 1;
 
-        for (int i : arr) {
-            now+=i;
-            if (now>N) break;
+        for (int i=2; now<=N; i++) {
             result.add(now);
+            add+=i;
+            now+=add;
         }
 
         return result;
