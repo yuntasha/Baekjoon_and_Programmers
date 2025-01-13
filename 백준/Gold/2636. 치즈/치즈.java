@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /*
 0-1 BFS로 풀어보자
@@ -37,23 +38,25 @@ public class Main {
 
         boolean[][] visited = new boolean[N][M];
         int[][] result = new int[N][M];
+
         int max = 0;
         int count = 0;
 
         q.add(new Node(0, 0));
-        visited[0][0] = false;
+        visited[0][0] = true;
 
         while(!q.isEmpty()) {
             Node now = q.remove();
-            if (max == result[now.x][now.y]) {
-                if (map[now.x][now.y] == 1) {
-                    count++;
-                }
-            } else {
-                max = result[now.x][now.y];
+
+
+            if (max < result[now.x][now.y]) {
                 count = 1;
+                max = result[now.x][now.y];
+            } else if (max == result[now.x][now.y] && map[now.x][now.y] == 1) {
+                count++;
             }
-            for (int d=0; d<4; d++) {
+            
+            for(int d=0; d<4; d++) {
                 int x = now.x + dx[d];
                 int y = now.y + dy[d];
 
@@ -71,7 +74,9 @@ public class Main {
                 }
             }
         }
-        if (max == 0) return "0\n0";
+
+
+//        System.out.println(Arrays.stream(result).map(Arrays::toString).collect(Collectors.joining("\n")));
         return max + "\n" + count;
     }
 
@@ -79,7 +84,7 @@ public class Main {
         return 0<=x && x<N && 0<=y && y<M;
     }
 
-    static class Node {
+    static class Node{
         int x;
         int y;
 
