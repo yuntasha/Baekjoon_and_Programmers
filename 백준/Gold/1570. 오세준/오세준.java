@@ -58,8 +58,7 @@ public class Main {
             return result.toString();
         }
 
-        int n = 1;
-        while ((n + 1) * N <= (X + Y)) n++;
+        int n = (X+Y)/N;
 
         for (int r = 0; r <= N; r++) {
             if (n * r > X) continue;
