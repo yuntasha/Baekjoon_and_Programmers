@@ -5,6 +5,7 @@ import java.util.*;
 200 * 200인데
 40000이면 4만
 왼위 오아 이런거 다 제외하고 하면 딱 4억?
+카데인 알고리즘 사용해보자
  */
 
 public class Main {
@@ -34,14 +35,10 @@ public class Main {
 
         for (int sm = 1; sm <= M; sm++) {
             for (int em = sm; em <= M; em++) {
+                int now = 0;
                 for (int sn = 0; sn < N; sn++) {
-                    int now = 0;
-                    for (int en = sn; en < N; en++) {
-                        if (sm == 0) now += arr[en][em];
-                        else now += arr[en][em] - arr[en][sm - 1];
-
-                        result = Math.max(result, now);
-                    }
+                    now = Math.max(now + arr[sn][em] - arr[sn][sm - 1], arr[sn][em] - arr[sn][sm - 1]);
+                    result = Math.max(result, now);
                 }
             }
         }
