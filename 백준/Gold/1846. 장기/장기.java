@@ -31,14 +31,10 @@ public class Main {
                 sj.add(String.valueOf(i));
             }
         } else {
-            for (int i = 2; i <= (N >> 1); i++) {
+            sj.add("2").add("1");
+            for (int i = N; i >= 3; i--) {
                 sj.add(String.valueOf(i));
             }
-            sj.add("1");
-            for (int i = (N >> 1) + 2; i <= N; i++) {
-                sj.add(String.valueOf(i));
-            }
-            sj.add(String.valueOf((N >> 1) + 1));
         }
 
         return sj.toString();
