@@ -15,33 +15,32 @@ public class Main {
 
         int N = Integer.parseInt(bf.readLine());
 
-        System.out.println(Arrays.stream(solution(N)).mapToObj(i -> String.valueOf(i + 1)).collect(Collectors.joining("\n")));
+        System.out.println(solution(N));
     }
 
-    static int[] solution(int N) {
-        int[] result = new int[N];
-
-        if (dfs(N, 0, new boolean[N], result)) {
-            return result;
+    static String solution(int N) {
+        if (N == 3) {
+            return "-1";
         }
 
-        return new int[]{-2};
-    }
+        StringJoiner sj = new StringJoiner("\n");
 
-    static boolean dfs(int N, int depth, boolean[] visited, int[] result) {
-        if (depth == N) return true;
-
-        for (int i = 0; i < N; i++) {
-            if (visited[i] || i == depth || N - 1 - i == depth) continue;
-            visited[i] = true;
-            result[depth] = i;
-            if (dfs(N, depth + 1, visited, result)) {
-                return true;
+        if ((N & 1) == 1) {
+            sj.add("2").add("1").add(String.valueOf(N));
+            for (int i = 3; i < N; i++) {
+                sj.add(String.valueOf(i));
             }
-            visited[i] = false;
-            result[depth] = -1;
+        } else {
+            for (int i = 2; i <= (N >> 1); i++) {
+                sj.add(String.valueOf(i));
+            }
+            sj.add("1");
+            for (int i = (N >> 1) + 2; i <= N; i++) {
+                sj.add(String.valueOf(i));
+            }
+            sj.add(String.valueOf((N >> 1) + 1));
         }
 
-        return false;
+        return sj.toString();
     }
 }
