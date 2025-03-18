@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -8,65 +6,63 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 
-        var NM = Arrays.stream(bufferedReader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        var N = NM[0];
-        var M = NM[1];
+        StringTokenizer input = new StringTokenizer(bf.readLine());
 
-        var links = new LinkedList<Link>();
+        int V = Integer.parseInt(input.nextToken());
+        int E = Integer.parseInt(input.nextToken());
 
-        for (int i=0; i<M; i++){
-            var link = Arrays.stream(bufferedReader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-            links.add(new Link(link[0], link[1], link[2]));
+        PriorityQueue<Line> lines = new PriorityQueue<Line>(Comparator.comparingInt(Line::getV));
+
+        for (int i = 0; i < E; i++) {
+            input = new StringTokenizer(bf.readLine());
+            lines.add(new Line(Integer.parseInt(input.nextToken()), Integer.parseInt(input.nextToken()), Integer.parseInt(input.nextToken())));
         }
 
-        System.out.println(solution(N, M, links));
+        System.out.println(solution(V, E, lines));
     }
 
-    static int solution(int N, int M, LinkedList<Link> links){
-        var nodeSet = IntStream.range(0, N+1).toArray();
-        links.sort(Comparator.comparing(Link::getValue));
-        var result = 0;
-        var cnt = 0;
-        while (cnt<N-1){
-            var now = links.remove();
-            var one = findMom(now.node1, nodeSet);
-            var two = findMom(now.node2, nodeSet);
+    public static int solution(int V, int E, PriorityQueue<Line> lines) {
+        int[] g = IntStream.rangeClosed(0, V).toArray();
+        int result = 0;
+        int count = 0;
 
-            if (one == two) continue;
+        while (!lines.isEmpty()) {
+            Line line = lines.remove();
+            if (count == V - 1) break;
 
-            if (one < two) {
-                nodeSet[two] = one;
-            } else {
-                nodeSet[one] = two;
-            }
-            cnt++;
-            result += now.value;
+            int a = find(line.a, g);
+            int b = find(line.b, g);
+
+            if (a == b) continue;
+
+            g[Math.max(a, b)] = Math.min(a, b);
+            result += line.v;
+            count++;
         }
+
         return result;
     }
 
-    static int findMom(int n, int[] nodeSet){
-        if (n == nodeSet[n]) return n;
-        nodeSet[n] = findMom(nodeSet[n], nodeSet);
-        return nodeSet[n];
+    static int find(int n, int[] g) {
+        if (g[n] == n) return n;
+        return g[n] = find(g[n], g);
     }
 
-    static class Link{
-        int node1;
-        int node2;
-        int value;
+    static class Line {
+        int a;
+        int b;
+        int v;
 
-
-        Link(int node1, int node2, int value){
-            this.node1 = node1;
-            this.node2 = node2;
-            this.value = value;
+        public Line(int a, int b, int v) {
+            this.a = a;
+            this.b = b;
+            this.v = v;
         }
 
-        int getValue(){
-            return this.value;
+        public int getV() {
+            return v;
         }
     }
 }
