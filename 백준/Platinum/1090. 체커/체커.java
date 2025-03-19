@@ -13,24 +13,17 @@ public class Main {
         List<Integer> xArr = new ArrayList<>();
         List<Integer> yArr = new ArrayList<>();
 
-        List<Point> points = new ArrayList<>();
-
         for (int i = 0; i < N; i++) {
             StringTokenizer input = new StringTokenizer(bf.readLine());
 
-            int x = Integer.parseInt(input.nextToken());
-            int y = Integer.parseInt(input.nextToken());
-
-            xArr.add(x);
-            yArr.add(y);
-
-            points.add(new Point(x, y));
+            xArr.add(Integer.parseInt(input.nextToken()));
+            yArr.add(Integer.parseInt(input.nextToken()));
         }
 
-        System.out.println(solution(N, xArr, yArr, points));
+        System.out.println(solution(N, xArr, yArr));
     }
 
-    public static String solution(int N, List<Integer> xArr, List<Integer> yArr, List<Point> points) {
+    public static String solution(int N, List<Integer> xArr, List<Integer> yArr) {
         int[] result = new int[N];
 
         Arrays.fill(result, Integer.MAX_VALUE);
@@ -39,8 +32,8 @@ public class Main {
             for (int y : yArr) {
                 List<Integer> dis = new ArrayList<>();
 
-                for (Point p : points) {
-                    dis.add(p.getD(x, y));
+                for (int i = 0; i < N; i++) {
+                    dis.add(Math.abs(xArr.get(i) - x) + Math.abs(yArr.get(i) - y));
                 }
 
                 dis.sort(Comparator.naturalOrder());
@@ -54,19 +47,5 @@ public class Main {
         }
 
         return Arrays.stream(result).mapToObj(String::valueOf).collect(Collectors.joining(" "));
-    }
-
-    public static class Point {
-        int x;
-        int y;
-
-        Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        int getD(int x, int y) {
-            return Math.abs(this.x - x) + Math.abs(this.y - y);
-        }
     }
 }
