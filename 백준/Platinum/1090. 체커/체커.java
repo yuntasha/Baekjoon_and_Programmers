@@ -10,20 +10,20 @@ public class Main {
 
         int N = Integer.parseInt(bf.readLine());
 
-        List<Integer> xArr = new ArrayList<>();
-        List<Integer> yArr = new ArrayList<>();
+        int[] xArr = new int[N];
+        int[] yArr = new int[N];
 
         for (int i = 0; i < N; i++) {
             StringTokenizer input = new StringTokenizer(bf.readLine());
 
-            xArr.add(Integer.parseInt(input.nextToken()));
-            yArr.add(Integer.parseInt(input.nextToken()));
+            xArr[i] = Integer.parseInt(input.nextToken());
+            yArr[i] = Integer.parseInt(input.nextToken());
         }
 
         System.out.println(solution(N, xArr, yArr));
     }
 
-    public static String solution(int N, List<Integer> xArr, List<Integer> yArr) {
+    public static String solution(int N, int[] xArr, int[] yArr) {
         int[] result = new int[N];
 
         Arrays.fill(result, Integer.MAX_VALUE);
@@ -33,7 +33,7 @@ public class Main {
                 List<Integer> dis = new ArrayList<>();
 
                 for (int i = 0; i < N; i++) {
-                    dis.add(Math.abs(xArr.get(i) - x) + Math.abs(yArr.get(i) - y));
+                    dis.add(Math.abs(xArr[i] - x) + Math.abs(yArr[i] - y));
                 }
 
                 dis.sort(Comparator.naturalOrder());
@@ -46,6 +46,14 @@ public class Main {
             }
         }
 
-        return Arrays.stream(result).mapToObj(String::valueOf).collect(Collectors.joining(" "));
+        StringBuilder output = new StringBuilder();
+
+        output.append(result[0]);
+
+        for (int i = 1; i < N; i++) {
+            output.append(" ").append(result[i]);
+        }
+
+        return output.toString();
     }
 }
