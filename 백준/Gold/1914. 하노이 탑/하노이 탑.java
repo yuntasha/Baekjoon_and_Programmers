@@ -30,10 +30,9 @@ public class Main {
         if (N > 20) {
             BigInteger result = new BigInteger("1");
             BigInteger one = new BigInteger("1");
-            BigInteger two = new BigInteger("2");
 
             for (int i = 1; i < N; i++) {
-                result = result.multiply(two).add(one);
+                result = result.shiftLeft(1).add(one);
             }
 
             return result.toString(10);
