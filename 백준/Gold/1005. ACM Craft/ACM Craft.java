@@ -51,24 +51,25 @@ public class Main {
 
     static int solution(int N, int K, List<List<Integer>> before, int[] cost, int W) {
         int[] dp = new int[N];
-        boolean[] visited = new boolean[N];
-        return find(before, cost, W, dp, visited);
+        return find(before, cost, W, dp);
     }
 
-    static int find(List<List<Integer>> before, int[] cost, int w, int[] dp, boolean[] visited) {
-        if (visited[w]) {
-            return dp[w];
+    static int find(List<List<Integer>> before, int[] cost, int w, int[] dp) {
+        if (dp[w] != 0) {
+            return Math.max(dp[w], 0);
         }
 
-        visited[w] = true;
-        dp[w] = 0;
-
         for (int i : before.get(w)) {
-            dp[w] = Math.max(dp[w], find(before, cost, i, dp, visited));
+            dp[w] = Math.max(dp[w], find(before, cost, i, dp));
         }
 
         // time은 현재 건물을 짓기위한 준비시간
         dp[w] = dp[w] + cost[w];
-        return dp[w];
+
+        if (dp[w] == 0) {
+            dp[w] = -1;
+        }
+
+        return Math.max(dp[w], 0);
     }
 }
