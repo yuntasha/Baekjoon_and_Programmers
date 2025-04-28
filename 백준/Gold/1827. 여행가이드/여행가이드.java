@@ -40,7 +40,7 @@ public class Main {
 
     static double dfs(int N, double speed, Person[] people, boolean[] visited, double nx, double ny, int count, double now, double maxT, double resultT) {
         if (count == N) {
-            return max(sqrt(pow(nx, 2) + pow(ny, 2)) / speed, maxT);
+            return max(sqrt(nx * nx + ny * ny) / speed, maxT);
         }
 
         double result = resultT;
@@ -52,7 +52,7 @@ public class Main {
             double nowT = getTime(people[i], now, nx, ny, speed);
             double x = people[i].x + cos(people[i].angle) * people[i].speed * (nowT + now);
             double y = people[i].y + sin(people[i].angle) * people[i].speed * (nowT + now);
-            double t = now + nowT + sqrt(pow(x, 2) + pow(y, 2)) / people[i].speed;
+            double t = now + nowT + sqrt(x * x + y * y) / people[i].speed;
             if (t <= resultT) {
                 result = Math.min(result, dfs(N, speed, people, visited, x, y, count + 1, now + nowT, max(maxT, t), resultT));
             }
@@ -70,7 +70,7 @@ public class Main {
         double dx = p.speed * cos(p.angle);
         double dy = p.speed * sin(p.angle);
 
-        double a = pow(dx, 2) + pow(dy, 2) - pow(s2, 2);
+        double a = dx * dx + dy * dy - s2 * s2;
         double b = ax * dx + ay * dy;
         double c = pow(ax, 2) + pow(ay, 2);
 
