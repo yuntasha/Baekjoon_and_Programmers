@@ -17,37 +17,21 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    static HashMap<Character, Integer> cToI = new HashMap<>();
-
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-
-        init();
 
         int[][] cards = new int[9][4];
 
         for (int i = 0; i < 9; i++) {
             StringTokenizer input = new StringTokenizer(bf.readLine());
 
-            cards[i][0] = cToI.get(input.nextToken().charAt(0));
-            cards[i][1] = cToI.get(input.nextToken().charAt(0));
-            cards[i][2] = cToI.get(input.nextToken().charAt(0));
-            cards[i][3] = cToI.get(input.nextToken().charAt(0));
+            cards[i][0] = input.nextToken().charAt(0);
+            cards[i][1] = input.nextToken().charAt(0);
+            cards[i][2] = input.nextToken().charAt(0);
+            cards[i][3] = input.nextToken().charAt(0);
         }
 
         System.out.println(solution(cards));
-    }
-
-    static void init() {
-        cToI.put('6', 0);
-        cToI.put('7', 1);
-        cToI.put('8', 2);
-        cToI.put('9', 3);
-        cToI.put('T', 4);
-        cToI.put('J', 5);
-        cToI.put('Q', 6);
-        cToI.put('K', 7);
-        cToI.put('A', 8);
     }
 
     static double solution(int[][] cards) {
