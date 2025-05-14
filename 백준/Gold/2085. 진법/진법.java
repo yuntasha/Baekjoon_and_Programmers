@@ -41,8 +41,8 @@ public class Main {
         System.out.println(solution(s));
     }
 
-    static long solution(String s) {
-        long result = 0;
+    static int solution(String s) {
+        int result = 0;
 
         for (int i = 1; i < s.length(); i++) {
             if (s.charAt(i) == '0') continue;
@@ -52,10 +52,10 @@ public class Main {
         return result;
     }
 
-    static long find(int last, String format, String s) {
+    static int find(int last, String format, String s) {
         if (s.charAt(0) == '0') return last == 1 ? 1 : 0;
 
-        long[] dp = new long[last + 1];
+        int[] dp = new int[last + 1];
 
         dp[0] = 1;
 
