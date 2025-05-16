@@ -42,22 +42,24 @@ public class Main {
     static long solution(String s) {
         long[][] dp = new long[s.length()][s.length()];
         long result = getCount(0, s.length() - 1, s, dp);
+//        for (long[] d : dp) {
+//            System.out.println(Arrays.toString(d));
+//        }
         return result;
     }
 
     static long getCount(int sIdx, int eIdx, String s, long[][] dp) {
-        if (sIdx > eIdx) return 0;
         if (sIdx == eIdx) return 1;
+        if (sIdx > eIdx) return 0;
 
+        if (s.charAt(sIdx) != s.charAt(eIdx)) return 0;
         if (dp[sIdx][eIdx] != 0) return Math.max(dp[sIdx][eIdx], 0);
 
         long result = 0;
 
         for (int mid = sIdx + 1; mid <= eIdx; mid++) {
-            if (s.charAt(sIdx) == s.charAt(mid)) {
-                long l = getCount(sIdx + 1, mid - 1, s, dp);
-                long r = getCount(mid, eIdx, s, dp);
-                result += (l * r) % MAX;
+            if (s.charAt(mid) == s.charAt(sIdx)) {
+                result += getCount(sIdx + 1, mid - 1, s, dp) * getCount(mid, eIdx, s, dp);
                 result %= MAX;
             }
         }
