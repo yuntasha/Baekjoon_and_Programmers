@@ -1,50 +1,23 @@
 import java.io.*;
-import java.util.*;
-
-/*
-음
-2칸을 채우는 방법
-ㅡ
-ㅣㅣ
-ㅣㅣ
-ㅡ
-ㅡ
-ㅡ
-ㅡ
-3가지
-3칸은 안채워져
-4칸은?
-저거에
-ㅡㅡ
-
-그림을 그리고 왔다
--2에서 일단 *3
--4부터 2의 배수로에 전부 *2
- */
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int[] db = {1, 0, 3, 0, 11, 0, 41, 0, 153, 0, 571, 0, 2131, 0, 7953, 0, 29681, 0, 110771, 0, 413403, 0, 1542841, 0, 5757961, 0, 21489003, 0, 80198051, 0, 299303201};
 
-        int N = Integer.parseInt(bf.readLine());
+        int N = read();
 
-        System.out.println(solution(N));
+        System.out.println(db[N]);
     }
 
-    static int solution(int N) {
-        int[] dp = new int[N + 1];
+    static int read() throws IOException {
+        int n = 0;
+        int c;
 
-        dp[0] = 1;
-
-        for (int i = 2; i <= N; i++) {
-            dp[i] = dp[i - 2] * 3;
-
-            for (int j = 4; j <= i; j += 2) {
-                dp[i] += dp[i - j] * 2;
-            }
+        while ((c = System.in.read()) >= '0') {
+            n = (n << 3) + (n << 1) + (c & 15);
         }
 
-        return dp[N];
+        return n;
     }
 }
