@@ -7,7 +7,8 @@ public class Main {
 
         int N = read();
 
-        System.out.println(db[N]);
+        if ((N & 1) == 1) System.out.print(0);
+        else System.out.print(db[N]);
     }
 
     static int read() throws IOException {
