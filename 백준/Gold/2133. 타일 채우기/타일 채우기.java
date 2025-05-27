@@ -3,12 +3,7 @@ import java.io.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        int[] db = {1, 0, 3, 0, 11, 0, 41, 0, 153, 0, 571, 0, 2131, 0, 7953, 0, 29681, 0, 110771, 0, 413403, 0, 1542841, 0, 5757961, 0, 21489003, 0, 80198051, 0, 299303201};
-
-        int N = read();
-
-        if ((N & 1) == 1) System.out.print(0);
-        else System.out.print(db[N]);
+        System.out.println(new int[]{1, 0, 3, 0, 11, 0, 41, 0, 153, 0, 571, 0, 2131, 0, 7953, 0, 29681, 0, 110771, 0, 413403, 0, 1542841, 0, 5757961, 0, 21489003, 0, 80198051, 0, 299303201}[read()]);
     }
 
     static int read() throws IOException {
