@@ -27,11 +27,11 @@ public class Main {
 
     public static long getSum(long N) {
         long result = 0;
-        long now = 1;
+        long now = 0;
 
-        while (now <= N) {
-            result += ((N / now) - (N / now / 2)) * now;
-            now *= 2;
+        while ((1L << now) <= N) {
+            result += ((N >> now) - (N >> (now + 1))) * (1L << now);
+            now++;
         }
 
         return result;
