@@ -9,43 +9,37 @@
  */
 
 import java.io.*;
-import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        int N = read();
-        int M = read();
-
-        int[][] map = new int[N][M];
-
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) map[i][j] = read();
-        }
-
-        System.out.println(solution(N, M, map));
+        System.out.println(solution(read(), read()));
     }
 
-    static int solution(int N, int M, int[][] map) {
+    static int solution(int N, int M) throws IOException {
         int[] result = new int[M];
+        int[] map = new int[M];
 
-        result[0] = map[0][0];
+        for (int j = 0; j < M; j++) map[j] = read();
+        result[0] = map[0];
 
         for (int i = 1; i < M; i++) {
-            result[i] = map[0][i] + result[i - 1];
+            result[i] = map[i] + result[i - 1];
         }
 
         int[] r = new int[M];
         int[] l = new int[M];
         for (int i = 1; i < N; i++) {
-            r[0] = result[0] + map[i][0];
+            map[0] = read();
+            r[0] = result[0] + map[0];
             for (int j = 1; j < M; j++) {
-                r[j] = map[i][j] + Math.max(r[j - 1], result[j]);
+                map[j] = read();
+                r[j] = map[j] + Math.max(r[j - 1], result[j]);
             }
 
-            l[M - 1] = result[M - 1] + map[i][M - 1];
+            l[M - 1] = result[M - 1] + map[M - 1];
             for (int j = M - 2; j >= 0; j--) {
-                l[j] = map[i][j] + Math.max(l[j + 1], result[j]);
+                l[j] = map[j] + Math.max(l[j + 1], result[j]);
             }
 
             for (int j = 0; j < M; j++) {
