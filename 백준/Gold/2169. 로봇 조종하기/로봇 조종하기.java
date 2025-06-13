@@ -35,14 +35,14 @@ public class Main {
             result[i] = map[0][i] + result[i - 1];
         }
 
+        int[] r = new int[M];
+        int[] l = new int[M];
         for (int i = 1; i < N; i++) {
-            int[] r = new int[M];
             r[0] = result[0] + map[i][0];
             for (int j = 1; j < M; j++) {
                 r[j] = map[i][j] + Math.max(r[j - 1], result[j]);
             }
 
-            int[] l = new int[M];
             l[M - 1] = result[M - 1] + map[i][M - 1];
             for (int j = M - 2; j >= 0; j--) {
                 l[j] = map[i][j] + Math.max(l[j + 1], result[j]);
