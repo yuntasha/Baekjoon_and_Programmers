@@ -14,17 +14,13 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int N = read();
+        int M = read();
 
-        StringTokenizer input = new StringTokenizer(bf.readLine());
-
-        int N = Integer.parseInt(input.nextToken());
-        int M = Integer.parseInt(input.nextToken());
-
-        int[][] map = new int[N][];
+        int[][] map = new int[N][M];
 
         for (int i = 0; i < N; i++) {
-            map[i] = Arrays.stream(bf.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+            for (int j = 0; j < M; j++) map[i][j] = read();
         }
 
         System.out.println(solution(N, M, map));
@@ -58,5 +54,18 @@ public class Main {
         }
 
         return result[M - 1];
+    }
+
+    static int read() throws IOException {
+        int n = System.in.read();
+        return n == '-' ? -getI(0) : getI(n & 15);
+    }
+
+    static int getI(int n) throws IOException {
+        int c;
+        while ((c = System.in.read()) >= '0') {
+            n = (n << 3) + (n << 1) + (c & 15);
+        }
+        return n;
     }
 }
