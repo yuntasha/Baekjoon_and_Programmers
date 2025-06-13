@@ -9,11 +9,12 @@
  */
 
 import java.io.*;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        System.out.println(solution(read(), read()));
+        System.out.println(solution(getI(), getI()));
     }
 
     static int solution(int N, int M) throws IOException {
@@ -28,7 +29,6 @@ public class Main {
         }
 
         int[] r = new int[M];
-        int[] l = new int[M];
         for (int i = 1; i < N; i++) {
             map[0] = read();
             r[0] = result[0] + map[0];
@@ -37,13 +37,11 @@ public class Main {
                 r[j] = map[j] + Math.max(r[j - 1], result[j]);
             }
 
-            l[M - 1] = result[M - 1] + map[M - 1];
+            int prev = result[M - 1] + map[M - 1];
+            result[M - 1] = Math.max(r[M - 1], prev);
             for (int j = M - 2; j >= 0; j--) {
-                l[j] = map[j] + Math.max(l[j + 1], result[j]);
-            }
-
-            for (int j = 0; j < M; j++) {
-                result[j] = Math.max(l[j], r[j]);
+                prev = map[j] + Math.max(prev, result[j]);
+                result[j] = Math.max(prev, r[j]);
             }
         }
 
@@ -56,6 +54,14 @@ public class Main {
     }
 
     static int getI(int n) throws IOException {
+        int c;
+        while ((c = System.in.read()) >= '0') {
+            n = (n << 3) + (n << 1) + (c & 15);
+        }
+        return n;
+    }
+    static int getI() throws IOException {
+        int n = 0;
         int c;
         while ((c = System.in.read()) >= '0') {
             n = (n << 3) + (n << 1) + (c & 15);
