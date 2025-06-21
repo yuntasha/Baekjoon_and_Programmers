@@ -27,28 +27,11 @@ public class Main {
         int result = 0;
 
         for (Point p1 : points) {
-            int min1 = 3_000_000;
-            int min2 = 3_000_000;
-            int max1 = 0;
-            int max2 = 0;
             for (Point p2 : points) {
                 if (Math.abs(p2.x - p1.x) >= A || Math.abs(p2.y - p1.y) >= B) continue;
-                if (p1.x > p2.x) continue;
-                if (p1.y <= p2.y) {
-                    min1 = Math.min(min1, p2.v);
-                    max1 = Math.max(max1, p2.v);
-                }
-                if (p1.y >= p2.y) {
-                    min2 = Math.min(min2, p2.v);
-                    max2 = Math.max(max2, p2.v);
-                }
+                result = Math.max(result, Math.abs(p2.v - p1.v));
             }
-
-            result = Math.max(result, max1 - min1);
-            result = Math.max(result, max2 - min2);
         }
-        // 4 2
-        // 1 4, 4 6
 
         return result;
     }
