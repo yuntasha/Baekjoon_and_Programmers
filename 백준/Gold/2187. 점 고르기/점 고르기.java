@@ -3,6 +3,10 @@ import java.util.*;
 
 public class Main {
 
+    static int[] x = new int[1000];
+    static int[] y = new int[1000];
+    static int[] v = new int[1000];
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
@@ -12,10 +16,6 @@ public class Main {
         int N = Integer.parseInt(input.nextToken());
         int A = Integer.parseInt(input.nextToken());
         int B = Integer.parseInt(input.nextToken());
-
-        int[] x = new int[N];
-        int[] y = new int[N];
-        int[] v = new int[N];
 
         for (int i = 0; i < N; i++) {
             input = new StringTokenizer(bf.readLine());
