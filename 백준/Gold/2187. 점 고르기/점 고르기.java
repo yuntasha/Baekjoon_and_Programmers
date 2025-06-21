@@ -1,10 +1,9 @@
 import java.io.*;
+import java.util.*;
 
 public class Main {
 
-    static int[] x = new int[1000];
-    static int[] y = new int[1000];
-    static int[] v = new int[1000];
+    static int[][] p = new int[1000][3];
 
     public static void main(String[] args) throws IOException {
 
@@ -13,21 +12,21 @@ public class Main {
         int B = read();
 
         for (int i = 0; i < N; i++) {
-            x[i] = read();
-            y[i] = read();
-            v[i] = read();
+            p[i][0] = read();
+            p[i][1] = read();
+            p[i][2] = read();
         }
 
-        System.out.println(solution(N, A, B, x, y, v));
+        System.out.println(solution(N, A, B, p));
     }
 
-    static int solution(int N, int A, int B, int[] x, int[] y, int[] v) {
+    static int solution(int N, int A, int B, int[][] p) {
         int result = 0;
 
         for (int i = 0; i < N; i++) {
             for (int j = i + 1; j < N; j++) {
-                if (Math.abs(x[j] - x[i]) < A && Math.abs(y[j] - y[i]) < B) {
-                    result = Math.max(result, Math.abs(v[i] - v[j]));
+                if (Math.abs(p[j][0] - p[i][0]) < A && Math.abs(p[j][1] - p[i][1]) < B) {
+                    result = Math.max(result, Math.abs(p[i][2] - p[j][2]));
                 }
             }
         }
