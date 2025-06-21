@@ -13,38 +13,31 @@ public class Main {
         int A = Integer.parseInt(input.nextToken());
         int B = Integer.parseInt(input.nextToken());
 
-        List<Point> points = new ArrayList<>();
+        int[] x = new int[N];
+        int[] y = new int[N];
+        int[] v = new int[N];
 
         for (int i = 0; i < N; i++) {
             input = new StringTokenizer(bf.readLine());
-            points.add(new Point(Integer.parseInt(input.nextToken()), Integer.parseInt(input.nextToken()), Integer.parseInt(input.nextToken())));
+            x[i] = Integer.parseInt(input.nextToken());
+            y[i] = Integer.parseInt(input.nextToken());
+            v[i] = Integer.parseInt(input.nextToken());
         }
 
-        System.out.println(solution(N, A, B, points));
+        System.out.println(solution(N, A, B, x, y, v));
     }
 
-    static int solution(int N, int A, int B, List<Point> points) {
+    static int solution(int N, int A, int B, int[] x, int[] y, int[] v) {
         int result = 0;
 
-        for (Point p1 : points) {
-            for (Point p2 : points) {
-                if (Math.abs(p2.x - p1.x) >= A || Math.abs(p2.y - p1.y) >= B) continue;
-                result = Math.max(result, Math.abs(p2.v - p1.v));
+        for (int i = 0; i < N; i++) {
+            for (int j = i + 1; j < N; j++) {
+                if (Math.abs(x[j] - x[i]) < A && Math.abs(y[j] - y[i]) < B) {
+                    result = Math.max(result, Math.abs(v[i] - v[j]));
+                }
             }
         }
 
         return result;
-    }
-
-    static class Point {
-        int x;
-        int y;
-        int v;
-
-        public Point(int x, int y, int v) {
-            this.x = x;
-            this.y = y;
-            this.v = v;
-        }
     }
 }
