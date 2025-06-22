@@ -13,18 +13,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+//
+//        StringTokenizer input = new StringTokenizer(bf.readLine());
 
-        StringTokenizer input = new StringTokenizer(bf.readLine());
-
-        int N = Integer.parseInt(input.nextToken());
-        long A = Long.parseLong(input.nextToken());
-        long B = Long.parseLong(input.nextToken());
+        int N = readI();
+        long A = readL();
+        long B = readL();
 
         for (int i = 0; i < N; i++) {
-            input = new StringTokenizer(bf.readLine());
-            p[i][0] = Long.parseLong(input.nextToken());
-            p[i][1] = Long.parseLong(input.nextToken());
+            p[i][0] = readUL();
+            p[i][1] = readUL();
         }
 
         System.out.println(solution(N, A, B, p));
@@ -54,8 +53,34 @@ public class Main {
         return result;
     }
 
-    static int read() throws IOException {
+    static long readUL() throws IOException {
+        int n = System.in.read();
+        return n == '-' ? -readL() : readL(n & 15);
+    }
+
+    static int readI() throws IOException {
         int n = 0;
+        int c;
+
+        while ((c = System.in.read()) >= '0') {
+            n = (n << 3) + (n << 1) + (c & 15);
+        }
+
+        return n;
+    }
+
+    static long readL() throws IOException {
+        long n = 0;
+        int c;
+
+        while ((c = System.in.read()) >= '0') {
+            n = (n << 3) + (n << 1) + (c & 15);
+        }
+
+        return n;
+    }
+
+    static long readL(long n) throws IOException {
         int c;
 
         while ((c = System.in.read()) >= '0') {
