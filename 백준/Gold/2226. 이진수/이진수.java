@@ -17,7 +17,7 @@ public class Main {
         BigInteger result = BigInteger.ZERO;
 
         for (int i = 2; i <= N; i++) {
-            result = result.multiply(BigInteger.TWO);
+            result = result.add(result);
             if ((i & 1) == 1) result = result.subtract(BigInteger.ONE);
             else result = result.add(BigInteger.ONE);
         }
