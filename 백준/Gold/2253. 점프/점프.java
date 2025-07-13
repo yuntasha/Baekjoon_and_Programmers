@@ -38,10 +38,10 @@ public class Main {
     }
 
     public static int find(int now, int move, int N, boolean[] small, int[][] dp) {
-        if (now > N) return INF;
-        if (move == 0) return INF;
+        if (now > N) return INF - 1;
+        if (move == 0) return INF - 1;
         if (now == N) return 0;
-        if (small[now]) return INF;
+        if (small[now]) return INF - 1;
         if (dp[move][now] <= INF) return dp[move][now];
 
         dp[move][now] = Math.min(dp[move][now], find(now + move, move, N, small, dp) + 1);
