@@ -1,5 +1,6 @@
 /*
-모든 순서 전부 순찰하고 끝
+10개 * 최대 값 1000
+10_000 인데 그냥 10만으로 바꿉시다
  */
 
 import java.io.*;
@@ -7,23 +8,23 @@ import java.util.*;
 
 public class Main {
 
+    static int MAX = 100_000;
+
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int N = read();
 
-        int N = Integer.parseInt(bf.readLine());
+        int[] prices = new int[N];
 
-        int[] prices = Arrays.stream(bf.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        for (int i = 0; i < N; i++) prices[i] = read();
 
         int[][] sales = new int[N][N];
 
         for (int i = 0; i < N; i++) {
-            int M = Integer.parseInt(bf.readLine());
+            int M = read();
 
             for (int j = 0; j < M; j++) {
-                StringTokenizer input = new StringTokenizer(bf.readLine());
-
-                sales[i][Integer.parseInt(input.nextToken()) - 1] += Integer.parseInt(input.nextToken());
+                sales[i][read() - 1] += read();
             }
         }
 
@@ -31,42 +32,37 @@ public class Main {
     }
 
     public static int solution(int N, int[] prices, int[][] sales) {
-        return find(0, 0, new int[N], N, prices, sales);
-    }
+        int[] dp = new int[(1 << N)];
 
-    public static int find(int n, int bits, int[] seq, int N, int[] prices, int[][] sales) {
-        if (n == N) {
-            return getP(seq, N, prices, sales);
-        }
+        Arrays.fill(dp, MAX);
 
-        int result = Integer.MAX_VALUE;
+        dp[0] = 0;
 
-        for (int i = 0; i < N; i++) {
-            if ((bits & (1 << i)) > 0) continue;
-            seq[n] = i;
-            result = Math.min(result, find(n + 1, bits | (1 << i), seq, N, prices, sales));
-        }
+        for (int i = 0; i < (1 << N); i++) {
+            for (int next = 0; next < N; next++) {
+                if ((i & (1 << next)) > 0) continue;
+                int now = prices[next];
 
-        return result;
-    }
+                for (int s = 0; s < N; s++) {
+                    if ((i & (1 << s)) == 0) continue;
+                    now -= sales[s][next];
+                }
 
-    public static int getP(int[] seq, int N, int[] prices, int[][] sales) {
-        int[] nowPrices = new int[N];
-
-        for (int i = 0; i < N; i++) {
-            nowPrices[i] = prices[i];
-        }
-
-        int result = 0;
-
-        for (int s : seq) {
-            result += nowPrices[s];
-
-            for (int i = 0; i < N; i++) {
-                nowPrices[i] = Math.max(nowPrices[i] - sales[s][i], 1);
+                dp[i | (1 << next)] = Math.min(dp[i | (1 << next)], dp[i] + Math.max(now, 1));
             }
         }
 
-        return result;
+        return dp[(1 << N) - 1];
+    }
+
+    public static int read() throws IOException {
+        int n = 0;
+        int c;
+
+        while ((c = System.in.read()) >= '0') {
+            n = (n << 3) + (n << 1) + (c & 15);
+        }
+
+        return n;
     }
 }
