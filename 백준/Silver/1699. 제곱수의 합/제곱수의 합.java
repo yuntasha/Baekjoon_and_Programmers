@@ -18,19 +18,16 @@ public class Main {
     }
 
     public static int solution(int N) {
-        return find(N, new int[N + 1]);
-    }
+        int[] dp = new int[N + 1];
 
-    public static int find(int n, int[] dp) {
-        if (dp[n] > 0) return dp[n];
-        if (n == 0) return 0;
+        for (int i = 0; i <= N; i++) dp[i] = i;
 
-        dp[n] = n;
-
-        for (int i = 1; i * i <= n; i++) {
-            dp[n] = Math.min(dp[n], find(n - (i * i), dp) + 1);
+        for (int s = 0; s < N; s++) {
+            for (int i = 1; i * i + s <= N; i++) {
+                dp[s + i * i] = Math.min(dp[s + i * i], dp[s] + 1);
+            }
         }
 
-        return dp[n];
+        return dp[N];
     }
 }
