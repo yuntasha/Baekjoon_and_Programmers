@@ -43,8 +43,13 @@ public class Main {
 
         if (na == nb) return;
 
-        g[Math.max(na, nb)] = Math.min(na, nb);
-        count[Math.min(na, nb)] += count[Math.max(na, nb)];
+        if (na > nb) {
+            g[na] = nb;
+            count[nb] += count[na];
+        } else {
+            g[nb] = na;
+            count[na] += count[nb];
+        }
     }
 
     public static int find(int a, int[] g) {
